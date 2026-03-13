@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediazone-rp
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mediazone-rp
+  template:
+    metadata:
+      labels:
+        app: mediazone-rp
+    spec:
+      containers:
+      - name: mediazone-rp
+        image: ghcr.io/fury2701/k8s-lab-app:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mediazone-rp
+  namespace: default
+spec:
+  selector:
+    app: mediazone-rp
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30080
+  type: NodePort
