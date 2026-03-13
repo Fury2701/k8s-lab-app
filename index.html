@@ -2,9 +2,190 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>MediaZone RP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediaZone RP — GTA V Roleplay Server</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+  nav { position: sticky; top: 0; z-index: 100; background: #0a0a0fee; border-bottom: 1px solid #ffffff08; backdrop-filter: blur(10px); padding: 16px 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-size: 16px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+  .nav-logo span { color: #00ffcc; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { font-size: 12px; letter-spacing: 2px; color: #666; text-transform: uppercase; text-decoration: none; transition: color 0.2s; cursor: pointer; }
+  .nav-links a:hover { color: #00ffcc; }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; padding: 2rem; background: #0a0a0f; border-bottom: 1px solid #00ffcc22; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, #00ffcc08 0%, transparent 70%); pointer-events: none; }
+  .logo-tag { font-size: 11px; letter-spacing: 4px; color: #00ffcc; text-transform: uppercase; margin-bottom: 1.5rem; border: 1px solid #00ffcc33; padding: 6px 18px; display: inline-block; }
+  .hero-title { font-size: clamp(42px, 8vw, 96px); font-weight: 900; line-height: 1; letter-spacing: -2px; color: #fff; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .hero-title span { color: #00ffcc; }
+  .hero-sub { font-size: clamp(18px, 3vw, 28px); font-weight: 300; color: #888; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 2.5rem; }
+  .hero-desc { max-width: 600px; font-size: 16px; color: #aaa; line-height: 1.8; margin-bottom: 3rem; }
+  .btn-group { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .btn-primary { background: #00ffcc; color: #0a0a0f; font-weight: 700; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; padding: 14px 36px; border: none; cursor: pointer; transition: all 0.2s; }
+  .btn-primary:hover { background: #00e6b8; transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: #00ffcc; font-weight: 700; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; padding: 14px 36px; border: 1px solid #00ffcc44; cursor: pointer; transition: all 0.2s; }
+  .btn-outline:hover { border-color: #00ffcc; background: #00ffcc11; }
+  .stats { display: flex; gap: 48px; margin-top: 4rem; flex-wrap: wrap; justify-content: center; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 36px; font-weight: 900; color: #00ffcc; line-height: 1; }
+  .stat-label { font-size: 11px; letter-spacing: 2px; color: #555; text-transform: uppercase; margin-top: 4px; }
+  section { padding: 80px 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-tag { font-size: 11px; letter-spacing: 4px; color: #00ffcc; text-transform: uppercase; margin-bottom: 1rem; }
+  .section-title { font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 1rem; }
+  .section-desc { color: #777; font-size: 16px; line-height: 1.8; max-width: 600px; margin-bottom: 3rem; }
+  .divider { border: none; border-top: 1px solid #ffffff08; margin: 0; }
+  .join-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+  .step { background: #0d0d1a; border: 1px solid #ffffff0a; padding: 28px 24px; position: relative; }
+  .step-num { font-size: 48px; font-weight: 900; color: #00ffcc18; position: absolute; top: 16px; right: 20px; line-height: 1; }
+  .step-icon { font-size: 28px; margin-bottom: 16px; }
+  .step h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .step p { font-size: 14px; color: #666; line-height: 1.7; }
+  .step-code { background: #00ffcc11; border: 1px solid #00ffcc33; color: #00ffcc; font-size: 13px; padding: 8px 12px; margin-top: 12px; font-family: monospace; }
+  .factions { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .faction { background: #0d0d1a; border: 1px solid #ffffff0a; padding: 24px; transition: border-color 0.2s; }
+  .faction:hover { border-color: #00ffcc33; }
+  .faction-color { width: 4px; height: 40px; margin-bottom: 16px; }
+  .faction h3 { font-size: 15px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .faction-type { font-size: 11px; color: #555; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .faction p { font-size: 13px; color: #666; line-height: 1.7; }
+  .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .rule { display: flex; gap: 16px; align-items: flex-start; background: #0d0d1a; border: 1px solid #ffffff0a; padding: 20px; }
+  .rule-num { font-size: 24px; font-weight: 900; color: #00ffcc; min-width: 40px; line-height: 1; }
+  .rule h4 { font-size: 14px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .rule p { font-size: 13px; color: #666; line-height: 1.6; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .gallery-item { aspect-ratio: 16/9; position: relative; overflow: hidden; cursor: pointer; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; filter: brightness(0.8); }
+  .gallery-item:hover img { transform: scale(1.05); filter: brightness(1); }
+  .gallery-item .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, #0a0a0f99 100%); }
+  .gallery-item .label { position: absolute; bottom: 12px; left: 14px; font-size: 11px; letter-spacing: 2px; color: #00ffcc; text-transform: uppercase; font-weight: 700; }
+  .gallery-big { grid-column: span 2; }
+  .gallery-placeholder { aspect-ratio: 16/9; background: #0d0d1a; border: 1px solid #ffffff0a; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; position: relative; overflow: hidden; }
+  .gallery-placeholder::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #00ffcc06 0%, transparent 50%, #7b00ff06 100%); }
+  .gallery-placeholder .scene-title { font-size: 13px; letter-spacing: 3px; color: #00ffcc; text-transform: uppercase; font-weight: 700; z-index: 1; }
+  .gallery-placeholder .scene-sub { font-size: 11px; letter-spacing: 2px; color: #333; text-transform: uppercase; z-index: 1; }
+  .gallery-placeholder::after { content: ''; position: absolute; top: -100%; left: 0; right: 0; height: 2px; background: #00ffcc22; animation: scan 3s linear infinite; }
+  @keyframes scan { to { top: 110%; } }
+  .gallery-big.gallery-placeholder { grid-column: span 2; }
+  .cta-section { text-align: center; padding: 80px 2rem; background: #0d0d1a; border-top: 1px solid #00ffcc11; border-bottom: 1px solid #00ffcc11; }
+  footer { text-align: center; padding: 40px 2rem; background: #0a0a0f; }
+  footer p { font-size: 12px; color: #333; letter-spacing: 2px; text-transform: uppercase; }
+  footer span { color: #00ffcc; }
+  @media (max-width: 600px) { .gallery { grid-template-columns: 1fr 1fr; } .gallery-big { grid-column: span 2; } .nav-links { display: none; } .stats { gap: 24px; } }
+</style>
 </head>
 <body>
-<h1>MediaZone RP — coming soon</h1>
+<nav>
+  <div class="nav-logo">Media<span>Zone</span></div>
+  <div class="nav-links">
+    <a onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">Приєднатись</a>
+    <a onclick="document.getElementById('factions').scrollIntoView({behavior:'smooth'})">Фракції</a>
+    <a onclick="document.getElementById('rules').scrollIntoView({behavior:'smooth'})">Правила</a>
+    <a onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Галерея</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="logo-tag">GTA V Roleplay Server</div>
+  <h1 class="hero-title">Media<span>Zone</span><br>RP</h1>
+  <p class="hero-sub">Los Santos Lives Here</p>
+  <p class="hero-desc">Поринь у найреалістичніший рольовий досвід. Власна економіка, десятки фракцій, унікальні механіки та жива спільнота гравців.</p>
+  <div class="btn-group">
+    <button class="btn-primary" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">Почати гру</button>
+    <button class="btn-outline" onclick="document.getElementById('factions').scrollIntoView({behavior:'smooth'})">Фракції</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Гравців онлайн</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Без зупинок</div></div>
+    <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Фракцій</div></div>
+    <div class="stat"><div class="stat-num">2+</div><div class="stat-label">Роки роботи</div></div>
+  </div>
+</div>
+<hr class="divider">
+<section id="join">
+  <div class="section-tag">Старт</div>
+  <h2 class="section-title">Як приєднатись</h2>
+  <p class="section-desc">Всього кілька кроків і ти вже в грі.</p>
+  <div class="join-steps">
+    <div class="step"><div class="step-num">01</div><div class="step-icon">🎮</div><h3>Встанови FiveM</h3><p>Завантаж та встанови клієнт FiveM з офіційного сайту.</p></div>
+    <div class="step"><div class="step-num">02</div><div class="step-icon">🔍</div><h3>Знайди сервер</h3><p>В браузері FiveM знайди нас або підключись напряму.</p><div class="step-code">connect mzrp.gg</div></div>
+    <div class="step"><div class="step-num">03</div><div class="step-icon">📋</div><h3>Реєстрація</h3><p>Зареєструйся та заповни анкету персонажа.</p></div>
+    <div class="step"><div class="step-num">04</div><div class="step-icon">🚀</div><h3>В гру!</h3><p>Після схвалення анкети ти в Los Santos!</p></div>
+  </div>
+</section>
+<hr class="divider">
+<section id="factions">
+  <div class="section-tag">Організації</div>
+  <h2 class="section-title">Фракції</h2>
+  <p class="section-desc">Обери свій шлях — захищай закон або живи поза ним.</p>
+  <div class="factions">
+    <div class="faction"><div class="faction-color" style="background:#00ffcc"></div><h3>Los Santos Police</h3><div class="faction-type">Державна</div><p>Патрулювання, розслідування, спецоперації.</p></div>
+    <div class="faction"><div class="faction-color" style="background:#ff4444"></div><h3>Ballas Gang</h3><div class="faction-type">Вулична банда</div><p>Контролюй вулиці Комптона. Наркоторгівля та рекет.</p></div>
+    <div class="faction"><div class="faction-color" style="background:#ffaa00"></div><h3>Vagos</h3><div class="faction-type">Вулична банда</div><p>Латинська вулична банда з глибоким корінням.</p></div>
+    <div class="faction"><div class="faction-color" style="background:#7b00ff"></div><h3>Marabunta Grande</h3><div class="faction-type">Злочинна організація</div><p>Контрабанда, відмивання грошей та корупція.</p></div>
+    <div class="faction"><div class="faction-color" style="background:#00aaff"></div><h3>EMS / Медики</h3><div class="faction-type">Державна</div><p>Рятуй життя в найнебезпечнішому місті.</p></div>
+    <div class="faction"><div class="faction-color" style="background:#888"></div><h3>Civilians</h3><div class="faction-type">Вільна роль</div><p>Бізнесмен, таксист, механік чи журналіст.</p></div>
+  </div>
+</section>
+<hr class="divider">
+<section id="rules">
+  <div class="section-tag">Кодекс</div>
+  <h2 class="section-title">Правила сервера</h2>
+  <p class="section-desc">Правила існують для якісного ігрового досвіду.</p>
+  <div class="rules-grid">
+    <div class="rule"><div class="rule-num">01</div><div><h4>RolePlay понад усе</h4><p>Завжди залишайся в ролі. Вихід з RP без причини — порушення.</p></div></div>
+    <div class="rule"><div class="rule-num">02</div><div><h4>Заборона MetaGaming</h4><p>Не використовуй інформацію отриману поза грою.</p></div></div>
+    <div class="rule"><div class="rule-num">03</div><div><h4>Заборона PowerGaming</h4><p>Не робиш нічого нереального для персонажа.</p></div></div>
+    <div class="rule"><div class="rule-num">04</div><div><h4>Повага до гравців</h4><p>Токсична поведінка заборонена як в грі так і поза нею.</p></div></div>
+    <div class="rule"><div class="rule-num">05</div><div><h4>Заборона читів</h4><p>Будь-який сторонній софт = перманентний бан.</p></div></div>
+    <div class="rule"><div class="rule-num">06</div><div><h4>CK тільки з дозволу</h4><p>Character Kill лише з дозволу адміністрації.</p></div></div>
+  </div>
+</section>
+<hr class="divider">
+<section id="gallery">
+  <div class="section-tag">Медіа</div>
+  <h2 class="section-title">Галерея</h2>
+  <p class="section-desc">Моменти з життя MediaZone RP.</p>
+  <div class="gallery">
+    <div class="gallery-item gallery-big">
+      <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80" alt="Night City">
+      <div class="overlay"></div>
+      <div class="label">Downtown · Night Chase</div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=80" alt="Police Car">
+      <div class="overlay"></div>
+      <div class="label">Police HQ</div>
+    </div>
+    <div class="gallery-placeholder">
+      <div class="scene-title">Gang Territory</div>
+      <div class="scene-sub">Compton · East Side</div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=400&q=80" alt="City Lights">
+      <div class="overlay"></div>
+      <div class="label">Vinewood Hills</div>
+    </div>
+    <div class="gallery-placeholder gallery-big">
+      <div class="scene-title">Airport · Smuggling Bust</div>
+      <div class="scene-sub">LSIA · Operation Blackout</div>
+    </div>
+    <div class="gallery-placeholder">
+      <div class="scene-title">Police Chase</div>
+      <div class="scene-sub">Highway · Code 3</div>
+    </div>
+  </div>
+</section>
+<div class="cta-section">
+  <div class="section-tag">Приєднуйся</div>
+  <h2 class="section-title">Готовий до гри?</h2>
+  <p class="section-desc" style="margin: 0 auto 2.5rem;">Більше 500 гравців вже живуть своїм другим життям в Los Santos.</p>
+  <div class="btn-group" style="justify-content:center">
+    <button class="btn-primary" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">Почати зараз</button>
+    <button class="btn-outline">Discord сервер</button>
+  </div>
+</div>
+<footer>
+  <p>© 2026 <span>MediaZone RP</span> · GTA V FiveM Server · Всі права захищені</p>
+</footer>
 </body>
 </html>
